@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --blue-1: rgb(calc(82 / 5), calc(144 / 5), calc(237 / 5));
+    --blue-2: rgb(82, 144, 237);
+    --blue-3: rgb(136, 172, 225);
+    --shadow-dark: rgba(0, 0, 0, 0.2);
+    --white: rgba(255, 255, 255, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*Later on here will put an animation for weather*/
+    background-color: var(--blue-1);
+}
+
