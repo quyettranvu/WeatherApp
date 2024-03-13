@@ -29,4 +29,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Set up server Expressjs using Typescript to synchronize with UI on Angular, fetch API retrieved data and send to ElasticSearch Cloud Host for analytics, visualizations and managing.
 Required packages for Typescript support on Nodejs: @types/node, typescript (global install recommend)
+
 Create ElasticSearch Cloud Host together with processors for managing and with Kibana Console for analytics, visualizations and more.
