@@ -6,6 +6,7 @@ interface ElasticConfig {
   cloudID: string;
   username: string;
   password: string;
+  apiKey: string;
 }
 
 const elasticConfig: ElasticConfig = config.get('elastic');
@@ -14,13 +15,10 @@ export const client = new Client({
     cloud: {
         id: elasticConfig.cloudID,
     },
-    auth: {
-        username: elasticConfig.username,
-        password: elasticConfig.password,
-    },
+    auth:{
+        apiKey: elasticConfig.apiKey,
+    }
 });
-
-console.log(client);
 
 client.ping()
     .then(response => console.log("You are connected to Elasticsearch Cloud"))
