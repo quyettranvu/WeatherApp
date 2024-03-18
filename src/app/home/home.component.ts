@@ -3,11 +3,13 @@ import { Component } from '@angular/core';
 import { environment } from '../../environments/enviroment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatSidenavModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
