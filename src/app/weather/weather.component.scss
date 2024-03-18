@@ -1,12 +1,14 @@
-.container {
-    width: 400px;
+.weather-container {
     height: 80vh;
+    width: 400px;
     background-color: var(--blue-2);
     border-radius: 20px;
     box-shadow: 10px 10px 10px var(--shadow-dark);
+    margin: 0 auto;
+    margin-top: 5rem;
 }
 
-.upper-data {
+.weather-upper-data {
     position: relative;
     height: 50%;
     overflow: hidden;
@@ -21,7 +23,7 @@
     }
 }
 
-.lower-data {
+.weather-lower-data {
     position: relative;
     height: 50%;
     overflow: hidden;
@@ -34,7 +36,7 @@
     flex-direction: column;
 }
 
-.upper-data-text {
+.weather-upper-data-text {
     position: relative;
     z-index: 1;
     height: 100%;
@@ -45,20 +47,20 @@
     color: var(--white);
 }
 
-.lower-data {
+.weather-lower-data {
     position: relative;
     height: 50%;
     overflow: hidden;
     width: 100%;
 }
 
-.lower-data-title {
+.weather-lower-data-title {
     color: var(--white);
     margin-left: 10px;
     margin-top: 10px;
 }
 
-.lower-data-container {
+.weather-lower-data-container {
     flex: 1;
     background-color: var(--blue-3);
     border-radius: 20px;
@@ -72,14 +74,14 @@
     flex-wrap: wrap;
 }
 
-.lower-data-block {
+.weather-lower-data-block {
     width: 50%;
     display: flex;
     flex-direction: row;
     padding-left: 2em;
 }
 
-.lower-data-content {
+.weather-lower-data-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -96,10 +98,12 @@
     }
 }
 
-.lower-data-value {
+.weather-lower-data-value {
     width: 50%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     color: var(--white);
 }
+
+/*Mobile responsive*/
