@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+
+div {
+     color: white;
+}
+
+.nav {
+    width: 100%;
+    float: left;
+}
+
+.home-navbar {
+    margin: 0;
+    padding: 8px;
+    height: 50px;
+
+    li {
+        display: inline;
+        margin-top: 0px;
+        font-size: 2.5em;
+    }
+}
+
+.home-main {
+    display: flex;
+    flex-direction: column;
+    font-family: inherit;
+    margin-top: 1rem;
+    margin-left: 2rem;
+}
+
+.home-type-selector {
+    margin-left: -30px;
+
+    li {
+        float: left;
+        display: inline;
+        margin-left: 5px;
+        font-style: inherit;
+
+        input {
+            width: 200px;
+            height: 28px;
+        }
+
+        input::placeholder {
+            color: black;
+            opacity: 1;
+        }
+
+        select {
+            font-size: 28px;
+            width: 200px;
+        }
+    }
+
+    button {
+        height: 28px;
+
+        &:hover {
+            color: rgb(1, 1, 1, 0.5);
+        }
+    }
+
+    &:hover {
+        outline: none;
+    }
+
+    &:focus {
+        border: 1px solid #bbbbbb;
+    }
+}
+
+/*Result contents*/
+.home-search-results {
+    display: block;
+    width: 100%;
+    margin-left: 13px;
+    font-family: inherit;
+}
+
+.home-results-card {
+    background-color: rgb(25, 129, 67, 0.7);
+    flex: 0 1 29rem;
+    height: 23rem;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px;
+    float: left;
+    margin: 1px;
+    margin-top: 5px;
+    margin-right: 10px;
+    padding: 10px epx;
+    justify-content: space-between;
+    max-width: 400px;
+}
+
+.home-results-text {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+/*Mobile responsive*/

@@ -1,77 +1,15 @@
 <mat-drawer-container class="home-container">
-    <mat-drawer #drawer [mode]="'over'">I'm a drawer</mat-drawer>
-    <mat-drawer-content>
-        <nav>
-            <ul class='home-navbar'>
-                <li>Earthquake Informations Watch</li>
-            </ul>
-        </nav>
-        <div class='home-main'>
-            <div class='home-type-selector'>
-                <ul>
-                    <li>
-                        <select name='types' id='types' [(ngModel)]='chosenType'>
-                            <option value='null'>Select a Type</option>
-                            <option value='earthquake'>Earthquake</option>
-                            <option value='quarry blast'>Quarry Blast</option>
-                            <option value='ice quake'>Ice Quake</option>
-                            <option value='explosion'>Explosion</option>
-                        </select>
-                    </li>
-                    <li>
-                        <select name='mag' id='mag' [(ngModel)]='chosenMag'>
-                            <option value='null'>Select magnitude level</option>
-                            <option value='2.5'>2.5+</option>
-                            <option value='5.5'>5.5+</option>
-                            <option value='6.1'>6.1+</option>
-                            <option value='7'>7+</option>
-                            <option value='8'>8+</option>
-                        </select>
-                    </li>
-                    <li>
-                        <input class='form' type='text' placeholder='Enter city, state, country' [(ngModel)]='chosenLocation'>
-                    </li>
-                    <li>
-                        <select name='dateRange' id='dateRange' [(ngModel)]='chosenDateRange'>
-                            <option value='null'>Select date range</option>
-                            <option value='7'>Past 7 Days</option>
-                            <option value='14'>Past 14 Days</option>
-                            <option value='21'>Past 21 Days</option>
-                            <option value='30'>Past 30 Days</option>
-                        </select>
-                    </li>
-                    <li>
-                        <select name='sortOption' id='sortOption' [(ngModel)]='chosenSortOption'>
-                            <option value='null'>Sort by</option>
-                            <option value='desc'>Largest Magnitude First</option>
-                            <option value='asc'>Smallest Magnitude First</option>
-                        </select>
-                    </li>
-                    <li>
-                        <button mat-raised-button color="basic" (click)='sendSearchRequest()'>Search</button>
-                    </li>
-                </ul>
-            </div>
-            <div class='search-results'>
-                <div *ngIf='documents'>
-                    <p *ngIf='documents.length > 0'>Number of hits: {{ documents.length }}</p>
-                    <p *ngIf='documents.length === 0'>No results found. Try broadening your search criteria.</p>
-                    <div class='results-card' *ngFor='let document of documents'>
-                        <div class='results-text'>
-                            <p>Type: {{ document._source.type }}</p>
-                            <p>Time: {{ document._source['@timestamp'] }}</p>
-                            <p>Location: {{ document._source.place }}</p>
-                            <p>Latitude: {{ document._source.coordinates.lat }}</p>
-                            <p>Longitude: {{ document._source.coordinates.lon }}</p>
-                            <p>Magnitude: {{ document._source.mag }}</p>
-                            <p>Depth: {{ document._source.depth }}</p>
-                            <p>Significance: {{ document._source.sig }}</p>
-                            <p>Event URL: {{ document._source.url }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <mat-drawer #drawer [mode]="'over'">
+        <div class="home-menu">
+            <a *ngFor="let menuItem of menuItems" [routerLink]="[menuItem.link]" [routerLinkActiveOptions]="{exact: true}"
+                routerLinkActive="active-link" #rla="routerLinkActive" [ngClass]="{ 'active': rla.isActive }">
+                {{ menuItem.label }}
+            </a>
         </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <!--Dynamic content for reuse-->
+        <ng-content></ng-content>
         <button mat-raised-button class="home-toggerdrawer-button" (click)="drawer.toggle()">
             <span class="home-toggerdrawer-button-text">></span>
         </button>
