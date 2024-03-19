@@ -1,17 +1,19 @@
 <mat-drawer-container class="home-container">
-    <mat-drawer #drawer [mode]="'over'">
-        <div class="home-menu">
-            <a *ngFor="let menuItem of menuItems" [routerLink]="[menuItem.link]" [routerLinkActiveOptions]="{exact: true}"
-                routerLinkActive="active-link" #rla="routerLinkActive" [ngClass]="{ 'active': rla.isActive }">
-                {{ menuItem.label }}
-            </a>
-        </div>
-    </mat-drawer>
-    <mat-drawer-content>
-        <!--Dynamic content for reuse-->
-        <ng-content></ng-content>
-        <button mat-raised-button class="home-toggerdrawer-button" (click)="drawer.toggle()">
-            <span class="home-toggerdrawer-button-text">></span>
-        </button>
-    </mat-drawer-content>
+        <mat-drawer #drawer [mode]="'over'">
+            <div class="home-menu">
+                <a *ngFor="let menuItem of menuItems" [routerLink]="[menuItem.link]"
+                    [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active-link" #rla="routerLinkActive"
+                    [ngClass]="{ 'active': rla.isActive }">
+                    {{ menuItem.label }}
+                </a>
+            </div>
+        </mat-drawer>
+        <mat-drawer-content>
+            <!--Dynamic content for reuse-->
+            <ng-content></ng-content>
+            <div class="snow"></div>
+            <button mat-raised-button class="home-toggerdrawer-button" (click)="drawer.toggle()">
+                <span class="home-toggerdrawer-button-text">></span>
+            </button>
+        </mat-drawer-content>
 </mat-drawer-container>

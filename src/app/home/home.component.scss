@@ -1,5 +1,10 @@
+@import 'snow_effect';
+
 .home-container {
-    /*Global setting,inside each page can define its custom styles*/
+    /*
+    *If prefer background color then use: background: linear-gradient(#123 30%, #667);
+    *Global setting,inside each page can define its custom styles
+    */
     background-image: url("/assets/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -11,9 +16,6 @@
     /*Blur effect*/
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(100rem);
-
-    /*Animation effects*/
-
 }
 
 .home-menu{
