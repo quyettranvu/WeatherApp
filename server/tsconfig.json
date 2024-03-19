@@ -109,8 +109,5 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   //for working with many paths to workspaces
-  "include": [
-    "./*.ts",
-    "./*/*.ts"
-  ]
+  "include": ["./*.ts", "./*/*.ts"]
 }

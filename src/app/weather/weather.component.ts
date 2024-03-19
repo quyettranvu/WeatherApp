@@ -7,7 +7,7 @@ import { HomeComponent } from '../home/home.component';
   standalone: true,
   imports: [CommonModule, HomeComponent],
   templateUrl: './weather.component.html',
-  styleUrl: './weather.component.scss'
+  styleUrl: './weather.component.scss',
 })
 export class WeatherComponent {
   showFilter = false;

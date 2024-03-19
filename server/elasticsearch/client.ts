@@ -1,6 +1,6 @@
 //This is Elasticsearch client for connecting server to Elasticsearch cloud
 import { Client } from '@elastic/elasticsearch';
-import config from "config";
+import config from 'config';
 
 interface ElasticConfig {
   cloudID: string;
@@ -12,14 +12,15 @@ interface ElasticConfig {
 const elasticConfig: ElasticConfig = config.get('elastic');
 
 export const client = new Client({
-    cloud: {
-        id: elasticConfig.cloudID,
-    },
-    auth:{
-        apiKey: elasticConfig.apiKey,
-    }
+  cloud: {
+    id: elasticConfig.cloudID,
+  },
+  auth: {
+    apiKey: elasticConfig.apiKey,
+  },
 });
 
-client.ping()
-    .then(response => console.log("You are connected to Elasticsearch Cloud"))
-    .catch(error=>console.error("Elasticsearch is not connected!"));
+client
+  .ping()
+  .then((response) => console.log('You are connected to Elasticsearch Cloud'))
+  .catch((error) => console.error('Elasticsearch is not connected!'));

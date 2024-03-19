@@ -10,7 +10,13 @@ import { HomeComponent } from '../home/home.component';
 @Component({
   selector: 'app-earthquake',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatSidenavModule, HomeComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatSidenavModule,
+    HomeComponent,
+  ],
   templateUrl: './earthquake.component.html',
   styleUrl: './earthquake.component.scss',
 })
@@ -42,7 +48,7 @@ export class EarthquakeComponent {
       },
       (error) => {
         console.error(error);
-      }
+      },
     );
   }
 }

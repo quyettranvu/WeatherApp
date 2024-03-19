@@ -1,54 +1,48 @@
 <app-home>
-      <div class="weather-container">
-        <div class="weather-upper-data">
-          <img src="/assets/hot.jpeg" *ngIf="14 > 15" />
-          <img src="/assets/cold.jpg" *ngIf="14 < 15" />
-      
-          <div class="weather-upper-data-text">
-            <div class="weather-upper-data-title">Nha Trang</div>
-            <div class="weather-upper-data-temperature">{{40 | number: '1.0-0'}} °C</div>
-          </div>
-        </div>
-        <div class="weather-lower-data">
-          <div class="weather-lower-data-title">More information</div>
-          <div class="weather-lower-data-container">
-            <div class="weather-lower-data-block">
-              <div class="weather-lower-data-content">
-                <img src="/assets/max.png" *ngIf="14 < 15" />
-                <span>min</span>
-              </div>
-              <div class="weather-lower-data-value">
-                19°C
-              </div>
-            </div>
-            <div class="weather-lower-data-block">
-              <div class="weather-lower-data-content">
-                <img src="/assets/min.jpeg" *ngIf="14 < 15" />
-                <span>min</span>
-              </div>
-              <div class="weather-lower-data-value">
-                19°C
-              </div>
-            </div>
-            <div class="weather-lower-data-block">
-              <div class="weather-lower-data-content">
-                <img src="/assets/humidity.jpeg" *ngIf="14 < 15" />
-                <span>min</span>
-              </div>
-              <div class="weather-lower-data-value">
-                19°C
-              </div>
-            </div>
-            <div class="weather-lower-data-block">
-              <div class="weather-lower-data-content">
-                <img src="/assets/wind.jpeg" *ngIf="14 < 15" />
-                <span>min</span>
-              </div>
-              <div class="weather-lower-data-value">
-                19°C
-              </div>
-            </div>
-          </div>
+  <div class="weather-container">
+    <div class="weather-upper-data">
+      <img src="/assets/hot.jpeg" *ngIf="14 > 15" alt="" />
+      <img src="/assets/cold.jpg" *ngIf="14 < 15" alt=" " />
+
+      <div class="weather-upper-data-text">
+        <div class="weather-upper-data-title">Nha Trang</div>
+        <div class="weather-upper-data-temperature">
+          {{ 40 | number: "1.0-0" }} °C
         </div>
       </div>
+    </div>
+    <div class="weather-lower-data">
+      <div class="weather-lower-data-title">More information</div>
+      <div class="weather-lower-data-container">
+        <div class="weather-lower-data-block">
+          <div class="weather-lower-data-content">
+            <img src="/assets/max.png" *ngIf="14 < 15" alt="" />
+            <span>min</span>
+          </div>
+          <div class="weather-lower-data-value">19°C</div>
+        </div>
+        <div class="weather-lower-data-block">
+          <div class="weather-lower-data-content">
+            <img src="/assets/min.jpeg" *ngIf="14 < 15" alt="" />
+            <span>min</span>
+          </div>
+          <div class="weather-lower-data-value">19°C</div>
+        </div>
+        <div class="weather-lower-data-block">
+          <div class="weather-lower-data-content">
+            <img src="/assets/humidity.jpeg" *ngIf="14 < 15" alt="" />
+            <span>min</span>
+          </div>
+          <div class="weather-lower-data-value">19°C</div>
+        </div>
+        <div class="weather-lower-data-block">
+          <div class="weather-lower-data-content">
+            <img src="/assets/wind.jpeg" *ngIf="14 < 15" alt="" />
+            <span>min</span>
+          </div>
+          <div class="weather-lower-data-value">19°C</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </app-home>

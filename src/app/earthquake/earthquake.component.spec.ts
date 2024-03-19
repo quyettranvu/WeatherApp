@@ -8,10 +8,9 @@ describe('EarthquakeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EarthquakeComponent]
-    })
-    .compileComponents();
-    
+      imports: [EarthquakeComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(EarthquakeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
