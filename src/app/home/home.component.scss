@@ -1,65 +1,65 @@
-@import 'snow_effect';
+@import "snow_effect";
 
 .home-container {
-    /*
+  /*
     *If prefer background color then use: background: linear-gradient(#123 30%, #667);
     *Global setting,inside each page can define its custom styles
     */
-    background-image: url("/assets/background.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-origin: initial;
-    background-clip: initial;
-    height: 100%;
-    margin: 0;
+  background-image: url("/assets/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-origin: initial;
+  background-clip: initial;
+  height: 100%;
+  margin: 0;
 
-    /*Blur effect*/
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(100rem);
+  /*Blur effect*/
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(100rem);
 }
 
-.home-menu{
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    width: 200px;
-    background: linear-gradient(180deg, #292929 0%, #121212 100%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    height: 100%;
+.home-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 200px;
+  background: linear-gradient(180deg, #292929 0%, #121212 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  height: 100%;
 
-    a {
-        display: block;
-        padding: 10px 0;
-        text-decoration: none;
-        color: #333;
-        font-size: 18px;
-        transition: all 0.3s ease;
+  a {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    transition: all 0.3s ease;
 
-        &:hover{
-            color: #007bff;
-        }
+    &:hover {
+      color: #007bff;
     }
+  }
 
-    .active {
-        font-weight: bold;
-        color: #007bff;
-    }
+  .active {
+    font-weight: bold;
+    color: #007bff;
+  }
 }
 
 .home-toggerdrawer-button {
-    position: fixed;
-    top: 50%;
-    left: -30px;
-    transform: translateY(-50%);
-    z-index: 10;
-    overflow: hidden;
-    border-radius: 0 20px 20px 0;
-    min-width: unset !important;
-    width: 50px !important;
+  position: fixed;
+  top: 50%;
+  left: -30px;
+  transform: translateY(-50%);
+  z-index: 10;
+  overflow: hidden;
+  border-radius: 0 20px 20px 0;
+  min-width: unset !important;
+  width: 50px !important;
 
-    .home-toggerdrawer-button-text {
-        margin-left: 20px;
-    }
+  .home-toggerdrawer-button-text {
+    margin-left: 20px;
+  }
 }
 
 /*Mobile responsive*/

@@ -13,8 +13,8 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent {
   menuItems = [
-    {label: 'Home', link: '/home'},
-    {label: 'Earthquake', link: '/earthquake'},
-    {label: 'Weather', link: '/weather'},
-  ]
+    { label: 'Home', link: '/home' },
+    { label: 'Earthquake', link: '/earthquake' },
+    { label: 'Weather', link: '/weather' },
+  ];
 }
