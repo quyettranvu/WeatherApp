@@ -28,7 +28,7 @@ export class EarthquakeComponent {
   chosenSortOption: string | null = null;
   documents: any[] | null = null;
 
-  url = environment.apiUrl;
+  url = environment.apiUrl + "/results";
 
   constructor(private httpClient: HttpClient) {}
 
