@@ -61,7 +61,7 @@
         </li>
       </ul>
     </div>
-    <div class="search-results">
+    <div class="home-search-results">
       <div *ngIf="documents">
         <p *ngIf="documents.length > 0">
           Number of hits: {{ documents.length }}
@@ -69,8 +69,8 @@
         <p *ngIf="documents.length === 0">
           No results found. Try broadening your search criteria.
         </p>
-        <div class="results-card" *ngFor="let document of documents">
-          <div class="results-text">
+        <div class="home-results-card" *ngFor="let document of documents">
+          <div class="home-results-text">
             <p>Type: {{ document._source.type }}</p>
             <p>Time: {{ document._source["@timestamp"] }}</p>
             <p>Location: {{ document._source.place }}</p>

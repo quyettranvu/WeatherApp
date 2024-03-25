@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/config": "^3.3.3",
+    "@types/cors": "^2.8.17",
     "@types/node": "^20.11.26",
     "rimraf": "^5.0.5",
     "typescript": "^5.4.2"
