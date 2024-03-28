@@ -16,5 +16,7 @@ export class HomeComponent {
     { label: 'Home', link: '/home' },
     { label: 'Earthquake', link: '/earthquake' },
     { label: 'Weather', link: '/weather' },
+    { label: 'SignUp', link: '/register-user' },
+    { label: 'Login', link: '/sign-in' },
   ];
 }

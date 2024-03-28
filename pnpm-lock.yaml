@@ -40,7 +40,6 @@ specifiers:
   karma-jasmine-html-reporter: ~2.1.0
   prettier: ^3.2.5
   prettier-eslint: ^16.3.0
-  primeng: ^17.12.0
   rxjs: ~7.8.0
   tslib: ^2.3.0
   typescript: ~5.3.2
@@ -62,7 +61,6 @@ dependencies:
   '@angular/ssr': 17.3.0_enu3ez7bjb6jmcyt6qcozkskqu
   express: 4.18.3
   firebase: 10.9.0
-  primeng: 17.12.0_b3cnbr67eqc73s22nuarhmtr7m
   rxjs: 7.8.1
   tslib: 2.6.2
   zone.js: 0.14.4
@@ -8339,23 +8337,6 @@ packages:
       ansi-styles: 5.2.0
       react-is: 18.2.0
     dev: true
-
-  /primeng/17.12.0_b3cnbr67eqc73s22nuarhmtr7m:
-    resolution: {integrity: sha512-RxUkmHliMxal8g1jy6gVe5HkwQQWZRz0BkV//d91wKnk0LP7vNJTbVU58ihSL9gAn/XkPW3xaR4heX585ml5yg==}
-    peerDependencies:
-      '@angular/common': ^17.0.0
-      '@angular/core': ^17.0.0
-      '@angular/forms': ^17.0.0
-      rxjs: ^6.0.0 || ^7.8.1
-      zone.js: ~0.14.0
-    dependencies:
-      '@angular/common': 17.3.0_zcrp5xvh5kukm2ji5ubfi7lea4
-      '@angular/core': 17.3.0_rxjs@7.8.1+zone.js@0.14.4
-      '@angular/forms': 17.3.0_si2fhasmc77u2awv5jbcdzjkmm
-      rxjs: 7.8.1
-      tslib: 2.6.2
-      zone.js: 0.14.4
-    dev: false
 
   /proc-log/3.0.0:
     resolution: {integrity: sha512-++Vn7NS4Xf9NacaU9Xq3URUuqZETPsf8L4j5/ckhaRYsfPeRyzGw+iDjFhV/Jr3uNmTvvddEJFWh5R1gRgUH8A==}
