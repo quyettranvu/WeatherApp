@@ -1,1 +1,51 @@
-<p>sign-in works!</p>
+<app-home>
+    <div class="signIn-container">
+        <div class="signIn-containerCell">
+                <div class="signIn-authBlock">
+                <h3>Sign In</h3>
+                <div class="signIn-formGroup">
+                    <input
+                        type="text"
+                        class="signIn-formControl"
+                        placeholder="Username"
+                        #userName
+                        required
+                    />
+                </div>
+                <div class="signIn-formGroup">
+                    <input
+                        type="password"
+                        class="signIn-formControl"
+                        placeholder="Password"
+                        #userPassword
+                        required
+                    />
+                </div>
+                <!-- Calling SignIn Api from AuthService -->
+                <div class="signIn-formGroup">
+                    <button
+                        type="button"
+                        class="signIn-button"
+                        (click)="authService.signIn(userName.value, userPassword.value)"
+                    >
+                        Log In
+                    </button>
+                </div>
+                <div class="signIn-formGroup">
+                    <span class="signIn-or"><span class="signIn-orInner">Or</span></span>
+                </div>
+                <div class="signIn-forgotPassword">
+                    <span routerLink="/forgot-password">Forgot Password?</span>
+                </div>
+        </div>
+        <div class="signIn-redirectToLogin">
+            <span>Don't have an account?<span
+                class="signIn-redirect"
+                routerLink="/register-user"
+                >
+                Sign Up
+            </span></span>
+        </div>
+        </div>
+    </div>
+</app-home>
