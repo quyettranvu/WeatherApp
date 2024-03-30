@@ -38,6 +38,7 @@ specifiers:
   karma-coverage: ~2.2.0
   karma-jasmine: ~5.1.0
   karma-jasmine-html-reporter: ~2.1.0
+  localstorage-polyfill: ^1.0.1
   prettier: ^3.2.5
   prettier-eslint: ^16.3.0
   rxjs: ~7.8.0
@@ -88,6 +89,7 @@ devDependencies:
   karma-coverage: 2.2.1
   karma-jasmine: 5.1.0_karma@6.4.3
   karma-jasmine-html-reporter: 2.1.0_pmplgc2sdbsfonook4xadbu7u4
+  localstorage-polyfill: 1.0.1
   prettier: 3.2.5
   prettier-eslint: 16.3.0
   typescript: 5.3.3
@@ -7275,6 +7277,11 @@ packages:
   /loader-utils/3.2.1:
     resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
     engines: {node: '>= 12.13.0'}
+    dev: true
+
+  /localstorage-polyfill/1.0.1:
+    resolution: {integrity: sha512-m4iHVZxFH5734oQcPKU08025gIz2+4bjWR9lulP8ZYxEJR0BpA0w32oJmkzh8y3UI9ci7xCBehQDc3oA1X+VHw==}
+    engines: {node: '>=6'}
     dev: true
 
   /locate-path/5.0.0:
