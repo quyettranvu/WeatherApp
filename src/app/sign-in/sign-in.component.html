@@ -1,51 +1,67 @@
 <app-home>
-    <div class="signIn-container">
-        <div class="signIn-containerCell">
-                <div class="signIn-authBlock">
-                <h3>Sign In</h3>
-                <div class="signIn-formGroup">
-                    <input
-                        type="text"
-                        class="signIn-formControl"
-                        placeholder="Username"
-                        #userName
-                        required
-                    />
-                </div>
-                <div class="signIn-formGroup">
-                    <input
-                        type="password"
-                        class="signIn-formControl"
-                        placeholder="Password"
-                        #userPassword
-                        required
-                    />
-                </div>
-                <!-- Calling SignIn Api from AuthService -->
-                <div class="signIn-formGroup">
-                    <button
-                        type="button"
-                        class="signIn-button"
-                        (click)="authService.signIn(userName.value, userPassword.value)"
-                    >
-                        Log In
-                    </button>
-                </div>
-                <div class="signIn-formGroup">
-                    <span class="signIn-or"><span class="signIn-orInner">Or</span></span>
-                </div>
-                <div class="signIn-forgotPassword">
-                    <span routerLink="/forgot-password">Forgot Password?</span>
-                </div>
-        </div>
-        <div class="signIn-redirectToLogin">
-            <span>Don't have an account?<span
-                class="signIn-redirect"
-                routerLink="/register-user"
-                >
-                Sign Up
-            </span></span>
-        </div>
-        </div>
+  <form class="signIn-container">
+    <h3>User Login</h3>
+    <div class="signIn-formField">
+      <label [htmlFor]="['emailId']">Email</label>
+      <input
+        id="emailId"
+        type="email"
+        class="signIn-formControl"
+        placeholder="Email"
+        matInput
+        [formControl]="emailFormControl"
+      />
+      <!-- @if (
+          emailFormControl.hasError("email") &&
+          !emailFormControl.hasError("required")
+        ) {
+          <mat-error>Please enter a valid email address</mat-error>
+        }
+        @if (emailFormControl.hasError("required")) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+        } -->
     </div>
+    <div class="signIn-formField">
+      <label [htmlFor]="['passwordId']">Password</label>
+      <input
+        id="passwordId"
+        type="password"
+        class="signIn-formControl"
+        placeholder="Password"
+        matInput
+        [formControl]="passwordFormControl"
+      />
+    </div>
+    <div class="signIn-formField">
+      <button
+        type="button"
+        class="signIn-button"
+        (click)="
+          authService.signIn(
+            emailFormControl.value!,
+            passwordFormControl.value!
+          )
+        "
+      >
+        Log In
+      </button>
+    </div>
+    <div class="signIn-forgotPassword">
+      <span routerLink="/forgot-password">Forgot Password?</span>
+    </div>
+    <div class="signIn-redirectToLogin">
+      <span
+        >Don't have an account?<span
+          class="signIn-redirect"
+          routerLink="/register-user"
+        >
+          Sign Up
+        </span></span
+      >
+    </div>
+    <span class="signIn-footerContainer"
+      >💡Fun fact about symbol Japanese flower
+      <img class="signIn-footer" src="/assets/sakura.jpg" alt="" />
+    </span>
+  </form>
 </app-home>

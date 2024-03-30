@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
@@ -6,6 +6,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { User } from './user';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -18,18 +19,22 @@ export class AuthService {
     public angularFireAuth: AngularFireAuth, // Firebase auth service
     public router: Router,
     public ngZone: NgZone, //remove outside scope warning
+    @Inject(DOCUMENT) document: Document,
   ) {
-    /* Saving user data in localstorage when logged in and setting up null when logged out */
-    this.angularFireAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
-    });
+    const localStorage = document.defaultView?.localStorage;
+    if (localStorage) {
+      /* Saving user data in localstorage when logged in and setting up null when logged out */
+      this.angularFireAuth.authState.subscribe((user) => {
+        if (user) {
+          this.userData = user;
+          localStorage.setItem('user', JSON.stringify(this.userData));
+          JSON.parse(localStorage.getItem('user')!);
+        } else {
+          localStorage.setItem('user', 'null');
+          JSON.parse(localStorage.getItem('user')!);
+        }
+      });
+    }
   }
 
   //SignIn
@@ -53,7 +58,23 @@ export class AuthService {
         email,
         password,
       );
-      this.setUserData(result.user);
+      if (result) {
+        this.sendVerificationEmail();
+        this.setUserData(result.user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //Send verification email
+  sendVerificationEmail() {
+    try {
+      this.angularFireAuth.currentUser
+        .then((u: any) => u.sendEmailVerification)
+        .then(() => {
+          this.router.navigate(['verify-email-address']);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -81,9 +102,9 @@ export class AuthService {
     return userRef.set(userData, { merge: true });
   }
 
-  async signOut() {
+  signOut() {
     try {
-      await this.angularFireAuth.signOut().then(() => {
+      this.angularFireAuth.signOut().then(() => {
         localStorage.removeItem('user');
         //navigate back to login page
       });
