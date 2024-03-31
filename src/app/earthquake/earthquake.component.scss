@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap");
 
 div {
-  color: white;
+  color: var(--white);
 }
 
 .nav {
@@ -44,7 +44,7 @@ div {
     }
 
     input::placeholder {
-      color: black;
+      color: var(--black);
       opacity: 1;
     }
 

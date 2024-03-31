@@ -42,7 +42,12 @@ $WeatherApp-theme: mat.define-light-theme(
   --blue-2: rgb(82, 144, 237);
   --blue-3: rgb(136, 172, 225);
   --shadow-dark: rgba(0, 0, 0, 0.2);
-  --white: rgba(255, 255, 255, 0.6);
+  --white: rgb(255, 255, 255);
+  --white-grey: rgba(255, 255, 255, 0.6);
+  --black: rgb(0,0,0);
+  --blue-form: rgb(191,219,254);
+  --blue-element: rgb(0, 123, 255);
+  --blue-form-element-transparent: rgba(0, 123, 255, 0.7);
 }
 
 * {
