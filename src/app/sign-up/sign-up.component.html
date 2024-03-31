@@ -1,1 +1,142 @@
-<p>sign-up works!</p>
+<app-home>
+  <form
+    class="signUp-container"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <h3>User Login</h3>
+    <div fxFlex fxLayout="column">
+      <mat-form-field
+        class="small"
+        appearance="outline"
+        fxFlex
+        style="width: 100%"
+      >
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="email"
+          class="signUp-formControl"
+        />
+        <mat-error
+          *ngIf="
+            signupForm.controls.email.touched &&
+            signupForm.controls.email.invalid
+          "
+        >
+          <span *ngIf="signupForm.controls.email.errors.required"
+            >Email is required</span
+          >
+          <span *ngIf="signupForm.controls.email.errors.email"
+            >Email is invalid</span
+          >
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="small"
+        fxFlex
+        style="width: 100%; margin-top: 5px"
+      >
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          class="signUp-formControl"
+          type="password"
+          [type]="password ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="password = !password"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-label]="password"
+        >
+          <mat-icon>{{ password ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            signupForm.controls.password.touched &&
+            signupForm.controls.password.invalid
+          "
+        >
+          <span *ngIf="signupForm.controls.password.errors.required"
+            >Password is required</span
+          >
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="small"
+        fxFlex
+        style="width: 100%; margin-top: 5px"
+      >
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          formControlName="confirmPassword"
+          class="signUp-formControl"
+          type="password"
+          [type]="confirmPassword ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="confirmPassword = !confirmPassword"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-label]="password"
+        >
+          <mat-icon>{{
+            confirmPassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            signupForm.controls.confirmPassword.touched &&
+            signupForm.controls.confirmPassword.invalid
+          "
+        >
+          <span *ngIf="signupForm.controls.confirmPassword.errors.required"
+            >Confirm Password is required</span
+          >
+        </mat-error>
+        <mat-hint
+          *ngIf="
+            validateSubmit() && !signupForm.controls.confirmPassword.invalid
+          "
+        >
+          <span>Password and Confirm Password not matching!</span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <button
+      mat-raised-button
+      class="signUp-button"
+      type="submit"
+      [disabled]="!(signupForm.valid || signupForm.dirty)"
+      [disabled]="!signupForm.valid"
+    >
+      <mat-icon>save</mat-icon> SignUp
+    </button>
+
+    <div class="signUp-redirectToLogin">
+      <span
+        >Already have an account?<span
+          class="signUp-redirect"
+          routerLink="/sign-in"
+        >
+          Login
+        </span></span
+      >
+    </div>
+    <span class="signUp-footerContainer"
+      >💡Fun fact about symbol Japanese flower
+      <img class="signUp-footer" src="/assets/sakura.jpg" alt="" />
+    </span>
+  </form>
+</app-home>
