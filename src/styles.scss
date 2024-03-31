@@ -53,8 +53,14 @@ $WeatherApp-theme: mat.define-light-theme(
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/*HTML parent -> for rem*/
+/*HTML parent, em->root, rem->current parent*/
 html,
 body {
   height: 100%;
+}
+
+/*MUI*/
+mat-form-field.small {
+  --mat-form-field-container-height: 40px;
+  --mat-form-field-container-vertical-padding: 8px;
 }

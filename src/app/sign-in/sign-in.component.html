@@ -1,51 +1,84 @@
 <app-home>
-  <form class="signIn-container">
+  <form
+    class="signIn-container"
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+  >
     <h3>User Login</h3>
-    <div class="signIn-formField">
-      <label [htmlFor]="['emailId']">Email</label>
-      <input
-        id="emailId"
-        type="email"
-        class="signIn-formControl"
-        placeholder="Email"
-        matInput
-        [formControl]="emailFormControl"
-      />
-      <!-- @if (
-          emailFormControl.hasError("email") &&
-          !emailFormControl.hasError("required")
-        ) {
-          <mat-error>Please enter a valid email address</mat-error>
-        }
-        @if (emailFormControl.hasError("required")) {
-          <mat-error>Email is <strong>required</strong></mat-error>
-        } -->
-    </div>
-    <div class="signIn-formField">
-      <label [htmlFor]="['passwordId']">Password</label>
-      <input
-        id="passwordId"
-        type="password"
-        class="signIn-formControl"
-        placeholder="Password"
-        matInput
-        [formControl]="passwordFormControl"
-      />
-    </div>
-    <div class="signIn-formField">
-      <button
-        type="button"
-        class="signIn-button"
-        (click)="
-          authService.signIn(
-            emailFormControl.value!,
-            passwordFormControl.value!
-          )
-        "
+    <div fxFlex fxLayout="column">
+      <mat-form-field
+        class="small"
+        appearance="outline"
+        fxFlex
+        style="width: 100%"
       >
-        Log In
-      </button>
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          formControlName="email"
+          class="signIn-formControl"
+        />
+        <mat-error
+          *ngIf="
+            loginForm.controls.email.touched && loginForm.controls.email.invalid
+          "
+        >
+          <span *ngIf="loginForm.controls.email.errors.required"
+            >Email is required</span
+          >
+          <span *ngIf="loginForm.controls.email.errors.email"
+            >Email is invalid</span
+          >
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="small"
+        fxFlex
+        style="width: 100%; margin-top: 5px"
+      >
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          class="signIn-formControl"
+          type="password"
+          [type]="password ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="password = !password"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-label]="password"
+        >
+          <mat-icon>{{ password ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            loginForm.controls.password.touched &&
+            loginForm.controls.password.invalid
+          "
+        >
+          <span *ngIf="loginForm.controls.password.errors.required"
+            >Password is required</span
+          >
+        </mat-error>
+      </mat-form-field>
     </div>
+
+    <button
+      mat-raised-button
+      class="signIn-button"
+      type="submit"
+      [disabled]="!(loginForm.valid || loginForm.dirty)"
+      [disabled]="!loginForm.valid"
+    >
+      <mat-icon>login</mat-icon> Login
+    </button>
+
     <div class="signIn-forgotPassword">
       <span routerLink="/forgot-password">Forgot Password?</span>
     </div>
