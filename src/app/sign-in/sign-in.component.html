@@ -1,8 +1,9 @@
 <app-home>
   <form
-    class="signIn-container"
+    class="jpForm-container"
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
+    style="height: 45vh"
   >
     <h3>User Login</h3>
     <div fxFlex fxLayout="column">
@@ -17,7 +18,7 @@
           type="email"
           matInput
           formControlName="email"
-          class="signIn-formControl"
+          class="jpForm-formControl"
         />
         <mat-error
           *ngIf="
@@ -43,7 +44,7 @@
         <input
           matInput
           formControlName="password"
-          class="signIn-formControl"
+          class="jpForm-formControl"
           type="password"
           [type]="password ? 'password' : 'text'"
         />
@@ -71,30 +72,30 @@
 
     <button
       mat-raised-button
-      class="signIn-button"
+      class="jpForm-button"
       type="submit"
-      [disabled]="!(loginForm.valid || loginForm.dirty)"
-      [disabled]="!loginForm.valid"
+      [disabled]="!(loginForm.valid && loginForm.dirty)"
     >
       <mat-icon>login</mat-icon> Login
     </button>
 
-    <div class="signIn-forgotPassword">
-      <span routerLink="/forgot-password">Forgot Password?</span>
+    <div class="jpForm-forgotPassword">
+      <span [routerLink]="['/forgot-password']">Forgot Password?</span>
     </div>
-    <div class="signIn-redirectToLogin">
+    <div class="jpForm-redirectToLogin">
       <span
         >Don't have an account?<span
-          class="signIn-redirect"
-          routerLink="/register-user"
+          class="jpForm-redirect"
+          [routerLink]="['/register-user']"
         >
           Sign Up
         </span></span
       >
     </div>
-    <span class="signIn-footerContainer"
+
+    <span class="jpForm-footerContainer"
       >💡Fun fact about symbol Japanese flower
-      <img class="signIn-footer" src="/assets/sakura.jpg" alt="" />
+      <img class="jpForm-footer" src="/assets/sakura.jpg" alt="" />
     </span>
   </form>
 </app-home>

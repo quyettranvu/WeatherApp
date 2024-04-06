@@ -1,10 +1,10 @@
 <app-home>
   <form
-    class="signUp-container"
+    class="jpForm-container"
     [formGroup]="signupForm"
     (ngSubmit)="onSubmit()"
   >
-    <h3>User Login</h3>
+    <h3>User SignUp</h3>
     <div fxFlex fxLayout="column">
       <mat-form-field
         class="small"
@@ -17,7 +17,7 @@
           type="email"
           matInput
           formControlName="email"
-          class="signUp-formControl"
+          class="jpForm-formControl"
         />
         <mat-error
           *ngIf="
@@ -44,7 +44,7 @@
         <input
           matInput
           formControlName="password"
-          class="signUp-formControl"
+          class="jpForm-formControl"
           type="password"
           [type]="password ? 'password' : 'text'"
         />
@@ -79,7 +79,7 @@
         <input
           matInput
           formControlName="confirmPassword"
-          class="signUp-formControl"
+          class="jpForm-formControl"
           type="password"
           [type]="confirmPassword ? 'password' : 'text'"
         />
@@ -116,27 +116,26 @@
 
     <button
       mat-raised-button
-      class="signUp-button"
+      class="jpForm-button"
       type="submit"
-      [disabled]="!(signupForm.valid || signupForm.dirty)"
-      [disabled]="!signupForm.valid"
+      [disabled]="!(signupForm.valid && signupForm.dirty)"
     >
       <mat-icon>save</mat-icon> SignUp
     </button>
 
-    <div class="signUp-redirectToLogin">
+    <div class="jpForm-redirectToLogin">
       <span
         >Already have an account?<span
-          class="signUp-redirect"
-          routerLink="/sign-in"
+          class="jpForm-redirect"
+          [routerLink]="['/sign-in']"
         >
           Login
         </span></span
       >
     </div>
-    <span class="signUp-footerContainer"
+    <span class="jpForm-footerContainer"
       >💡Fun fact about symbol Japanese flower
-      <img class="signUp-footer" src="/assets/sakura.jpg" alt="" />
+      <img class="jpForm-footer" src="/assets/sakura.jpg" alt="" />
     </span>
   </form>
 </app-home>

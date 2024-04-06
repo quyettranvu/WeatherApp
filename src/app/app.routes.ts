@@ -4,6 +4,7 @@ import { WeatherComponent } from './weather/weather.component';
 import { EarthquakeComponent } from './earthquake/earthquake.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 //All routes defined from here
 export const routes: Routes = [
@@ -11,6 +12,10 @@ export const routes: Routes = [
   {
     path: 'earthquake',
     component: EarthquakeComponent,
+  },
+  {
+    path: 'weather',
+    component: WeatherComponent,
   },
   {
     path: 'sign-in',
@@ -21,8 +26,8 @@ export const routes: Routes = [
     component: SignUpComponent,
   },
   {
-    path: 'weather',
-    component: WeatherComponent,
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
   },
   { path: '**', component: HomeComponent },
 ];
