@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HomeComponent } from '../home/home.component';
 
 @Component({
@@ -9,6 +9,8 @@ import { HomeComponent } from '../home/home.component';
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss',
 })
-export class WeatherComponent {
+export class WeatherComponent implements OnInit {
   showFilter = false;
+
+  ngOnInit(): void {}
 }

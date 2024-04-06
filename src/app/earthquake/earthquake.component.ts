@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/enviroment';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,7 @@ import { HomeComponent } from '../home/home.component';
   templateUrl: './earthquake.component.html',
   styleUrl: './earthquake.component.scss',
 })
-export class EarthquakeComponent {
+export class EarthquakeComponent implements OnInit {
   chosenType: string | null = null;
   chosenMag: string | null = null;
   chosenLocation: string | null = null;
@@ -31,6 +31,8 @@ export class EarthquakeComponent {
   url = environment.apiUrl + '/results';
 
   constructor(private httpClient: HttpClient) {}
+
+  ngOnInit(): void {}
 
   sendSearchRequest() {
     const params: any = {

@@ -37,7 +37,6 @@ export class AuthService {
     }
   }
 
-  //SignIn
   async signIn(email: string, password: string) {
     try {
       const result = await this.angularFireAuth.signInWithEmailAndPassword(
@@ -45,13 +44,20 @@ export class AuthService {
         password,
       );
       this.setUserData(result.user);
-      //navigate to current page by checking whether authorized
+      // Angular Fire Athentication State as Observable of Authentication state
+      this.angularFireAuth.authState.subscribe((user) => {
+        if (user) {
+          console.log("Navigate to dashboard showing user's information");
+          // this.router.navigate(['dashboard']);
+        }
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-  //SignUp
+  //Sign in with Google
+
   async signUp(email: string, password: string) {
     try {
       const result = await this.angularFireAuth.createUserWithEmailAndPassword(
@@ -67,22 +73,34 @@ export class AuthService {
     }
   }
 
-  //Send verification email
   sendVerificationEmail() {
     try {
       this.angularFireAuth.currentUser
         .then((u: any) => u.sendEmailVerification)
         .then(() => {
-          this.router.navigate(['verify-email-address']);
+          console.log('Verification Email Address Page');
+          // this.router.navigate(['verify-email-address']);
         });
     } catch (error) {
       console.log(error);
     }
   }
 
+  forgotPassword(passwordResetEmail: string) {
+    try {
+      this.angularFireAuth
+        .sendPasswordResetEmail(passwordResetEmail)
+        .then(() => {
+          window.alert('Password reset email sent, check your inbox.');
+        });
+    } catch (error) {
+      window.alert(error);
+    }
+  }
+
   get IsLogIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-    return user != null ? true : false;
+    return user != null && user.emailVerified !== false ? true : false;
   }
 
   setUserData(user: any) {

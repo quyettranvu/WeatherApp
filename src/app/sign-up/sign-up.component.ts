@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../shared/services/auth.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -24,6 +25,7 @@ import { AuthService } from '../shared/services/auth.service';
     ReactiveFormsModule,
     CommonModule,
     MatIconModule,
+    RouterModule,
   ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',

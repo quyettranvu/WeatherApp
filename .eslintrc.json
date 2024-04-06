@@ -28,6 +28,10 @@
             "style": "kebab-case"
           }
         ],
+        //Disable error about empty lifecycle methods of Angular
+        "@angular-eslint/no-empty-lifecycle-method": [
+          0
+        ],
         /*Other custom rules*/
         "@typescript-eslint/no-explicit-any": ["off"],
         "@typescript-eslint/no-unused-vars" : ["off"]

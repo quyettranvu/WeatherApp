@@ -1,56 +1,56 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
 import { HomeComponent } from '../home/home.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {
-  Validators,
-  FormsModule,
-  ReactiveFormsModule,
   FormBuilder,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../shared/services/auth.service';
+
 @Component({
-  selector: 'app-sign-in',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: [
     HomeComponent,
-    FormsModule,
     MatFormFieldModule,
+    FormsModule,
     MatInputModule,
-    ReactiveFormsModule,
     CommonModule,
+    ReactiveFormsModule,
+    MatButtonModule,
     MatIconModule,
     RouterModule,
   ],
-  templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.scss',
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.scss',
 })
-export class SignInComponent implements OnInit {
-  loginForm: any = FormGroup;
-  password = true;
+export class ForgotPasswordComponent implements OnInit {
+  forgotPasswordForm: any = FormGroup;
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
+    this.forgotPasswordForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
     });
   }
 
   onSubmit() {
-    const formData = this.loginForm.value;
+    const formData = this.forgotPasswordForm.value;
     const data = {
-      email: formData.email,
       password: formData.password,
     };
 
-    this.authService.signIn(data.email, data.password);
+    this.authService.forgotPassword(data.password);
   }
 }
