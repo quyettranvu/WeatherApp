@@ -1,5 +1,6 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import * as auth from 'firebase/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
@@ -57,6 +58,28 @@ export class AuthService {
   }
 
   //Sign in with Google
+  GoogleAuth() {
+    try {
+      this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
+        console.log('Google Crendials on Login: ' + res);
+        //navigate to dashboard
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async AuthLogin(provider: any) {
+    try {
+      const result = await this.angularFireAuth.signInWithPopup(provider);
+      if (result) {
+        //navigate to dashboard
+        this.setUserData(result.user);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async signUp(email: string, password: string) {
     try {
@@ -78,8 +101,7 @@ export class AuthService {
       this.angularFireAuth.currentUser
         .then((u: any) => u.sendEmailVerification)
         .then(() => {
-          console.log('Verification Email Address Page');
-          // this.router.navigate(['verify-email-address']);
+          this.router.navigate(['verify-email-address']);
         });
     } catch (error) {
       console.log(error);
@@ -124,7 +146,7 @@ export class AuthService {
     try {
       this.angularFireAuth.signOut().then(() => {
         localStorage.removeItem('user');
-        //navigate back to login page
+        this.router.navigate(['sign-in']);
       });
     } catch (error) {
       console.log(error);

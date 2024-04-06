@@ -5,6 +5,8 @@ import { EarthquakeComponent } from './earthquake/earthquake.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { authGuard } from './shared/guard/auth.guard';
 
 //All routes defined from here
 export const routes: Routes = [
@@ -16,6 +18,7 @@ export const routes: Routes = [
   {
     path: 'weather',
     component: WeatherComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'sign-in',
@@ -28,6 +31,10 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+  },
+  {
+    path: 'verify-email-address',
+    component: VerifyEmailComponent,
   },
   { path: '**', component: HomeComponent },
 ];

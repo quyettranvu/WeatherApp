@@ -1,1 +1,36 @@
-<p>verify-email works!</p>
+<app-home>
+  <div class="jpForm-container" style="height: 30vh">
+    <h3>Thank You for Registering</h3>
+    <div class="verifyEmail-formGroup" *ngIf="authService.userData as user">
+      <p class="verifyEmail-text">
+        We have sent a confirmation email to <strong>{{ user.email }}</strong
+        >.
+      </p>
+      <p class="verifyEmail-text">
+        Please check your email and click on the link to verfiy your email
+        address.
+      </p>
+    </div>
+
+    <button
+      class="jpForm-button"
+      type="button"
+      (click)="authService.sendVerificationEmail()"
+    >
+      <mat-icon>redo</mat-icon> Resend Verification Email
+    </button>
+
+    <div class="forgotPassword-redirectContainer">
+      <span
+        >Go back to ?<span class="jpForm-redirect" [routerLink]="['/sign-in']">
+          Log In
+        </span></span
+      >
+    </div>
+
+    <span class="jpForm-footerContainer"
+      >💡Fun fact about symbol Japanese flower
+      <img class="jpForm-footer" src="/assets/sakura.jpg" alt="" />
+    </span>
+  </div>
+</app-home>
