@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { User } from './user';
 import { HttpClient } from '@angular/common/http';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -67,23 +67,16 @@ export class AuthService {
 
   //Sign in with Google
   GoogleAuth() {
-    try {
-      this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-        console.log('Google Crendials on Login: ' + res);
-        //navigate to dashboard
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    this.AuthLogin(new auth.GoogleAuthProvider());
   }
 
   async AuthLogin(provider: any) {
     try {
-      const result = await this.angularFireAuth.signInWithPopup(provider);
-      if (result) {
-        //navigate to dashboard
+      this.angularFireAuth.signInWithPopup(provider).then((result) => {
+        console.log('Login Successful. Redirecting to dashboard...');
+        this.router.navigate(['dashboard']);
         this.setUserData(result.user);
-      }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -134,6 +127,14 @@ export class AuthService {
       return user != null && user.emailVerified !== false ? true : false;
     }
     return false;
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.angularFireAuth.authState.pipe(
+      map((user) => {
+        return user !== null; // Returns true if user is authenticated, false otherwise
+      }),
+    );
   }
 
   setUserData(user: any) {
