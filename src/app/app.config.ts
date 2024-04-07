@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/enviroment';
+import { provideHttpClient } from '@angular/common/http';
 
 //Here will define all providers
 export const appConfig: ApplicationConfig = {
@@ -17,5 +18,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       AngularFireModule.initializeApp(environment.firebaseConfig),
     ),
+    provideHttpClient(),
   ],
 };

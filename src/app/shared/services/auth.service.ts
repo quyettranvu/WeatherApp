@@ -1,4 +1,5 @@
-import { Inject, Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
 import {
@@ -7,7 +8,8 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { User } from './user';
-import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +20,13 @@ export class AuthService {
   constructor(
     public angularFireStore: AngularFirestore, // Firestore service
     public angularFireAuth: AngularFireAuth, // Firebase auth service
+    // private httpClient: HttpClient,
     public router: Router,
     public ngZone: NgZone, //remove outside scope warning
-    @Inject(DOCUMENT) document: Document,
+    @Inject(PLATFORM_ID) private platformId: object,
   ) {
-    const localStorage = document.defaultView?.localStorage;
-    if (localStorage) {
+    // const localStorage = document.defaultView?.localStorage;
+    if (isPlatformBrowser(this.platformId)) {
       /* Saving user data in localstorage when logged in and setting up null when logged out */
       this.angularFireAuth.authState.subscribe((user) => {
         if (user) {
@@ -48,14 +51,19 @@ export class AuthService {
       // Angular Fire Athentication State as Observable of Authentication state
       this.angularFireAuth.authState.subscribe((user) => {
         if (user) {
-          console.log("Navigate to dashboard showing user's information");
-          // this.router.navigate(['dashboard']);
+          this.router.navigate(['dashboard']);
         }
       });
     } catch (error) {
       console.log(error);
     }
   }
+
+  // signInRxJs(email: string, password: string): Observable<User> {
+  //   return this.httpClient
+  //     .post<User>('/login', { email, password })
+  //     .pipe(shareReplay()); //prevent receiver from triggering multiple POST requests
+  // }
 
   //Sign in with Google
   GoogleAuth() {
@@ -121,8 +129,11 @@ export class AuthService {
   }
 
   get IsLogIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    return user != null && user.emailVerified !== false ? true : false;
+    if (isPlatformBrowser(this.platformId)) {
+      const user = JSON.parse(localStorage.getItem('user')!);
+      return user != null && user.emailVerified !== false ? true : false;
+    }
+    return false;
   }
 
   setUserData(user: any) {
@@ -145,8 +156,10 @@ export class AuthService {
   signOut() {
     try {
       this.angularFireAuth.signOut().then(() => {
-        localStorage.removeItem('user');
-        this.router.navigate(['sign-in']);
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.removeItem('user');
+          this.router.navigate(['sign-in']);
+        }
       });
     } catch (error) {
       console.log(error);

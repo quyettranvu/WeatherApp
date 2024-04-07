@@ -3,7 +3,9 @@ import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 class PermissionsService {
   constructor(
     public authService: AuthService,
