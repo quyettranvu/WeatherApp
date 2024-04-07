@@ -6,7 +6,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-import { authGuard } from './shared/guard/auth.guard';
+import { AuthGuard } from './shared/guard/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 //All routes defined from here
@@ -39,7 +39,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   { path: '**', component: HomeComponent },
 ];

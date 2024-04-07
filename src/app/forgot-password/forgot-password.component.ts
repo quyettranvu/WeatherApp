@@ -48,9 +48,9 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     const formData = this.forgotPasswordForm.value;
     const data = {
-      password: formData.password,
+      email: formData.email,
     };
 
-    this.authService.forgotPassword(data.password);
+    this.authService.forgotPassword(data.email);
   }
 }
