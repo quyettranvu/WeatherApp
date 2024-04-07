@@ -3,7 +3,7 @@
     class="jpForm-container"
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
-    style="height: 45vh"
+    style="height: 50vh"
   >
     <h3>User Login</h3>
     <div fxFlex fxLayout="column">
@@ -82,6 +82,33 @@
     <div class="jpForm-forgotPassword">
       <span [routerLink]="['/forgot-password']">Forgot Password?</span>
     </div>
+
+    <div class="jpForm-signInOptions">
+      <button
+        class="signInOptions-button"
+        type="button"
+        (click)="loginwithGoogle()"
+      >
+        <mat-icon>account_circle</mat-icon> Google
+      </button>
+
+      <button
+        class="signInOptions-button"
+        type="button"
+        (click)="loginwithGoogle()"
+      >
+        <mat-icon>account_circle</mat-icon> Facebook
+      </button>
+
+      <button
+        class="signInOptions-button"
+        type="button"
+        (click)="loginwithGoogle()"
+      >
+        <mat-icon>account_circle</mat-icon> Github
+      </button>
+    </div>
+
     <div class="jpForm-redirectToLogin">
       <span
         >Don't have an account?<span
