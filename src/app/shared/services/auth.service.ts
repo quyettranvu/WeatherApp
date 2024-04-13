@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { User } from './user';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay } from 'rxjs';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class AuthService {
   constructor(
     public angularFireStore: AngularFirestore, // Firestore service
     public angularFireAuth: AngularFireAuth, // Firebase auth service
-    // private httpClient: HttpClient,
+    private httpClient: HttpClient,
     public router: Router,
     public ngZone: NgZone, //remove outside scope warning
     @Inject(PLATFORM_ID) private platformId: object,
@@ -59,11 +60,11 @@ export class AuthService {
     }
   }
 
-  // signInRxJs(email: string, password: string): Observable<User> {
-  //   return this.httpClient
-  //     .post<User>('/login', { email, password })
-  //     .pipe(shareReplay()); //prevent receiver from triggering multiple POST requests
-  // }
+  signInRxJs(email: string, password: string): Observable<User> {
+    return this.httpClient
+      .post<User>('/api/login', { email, password })
+      .pipe(shareReplay()); //prevent receiver from triggering multiple POST requests
+  }
 
   //Sign in with Google
   GoogleAuth() {
@@ -95,6 +96,12 @@ export class AuthService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  signUpRxJs(email: string, password: string): Observable<User> {
+    return this.httpClient
+      .post<User>('/api/signUp', { email, password })
+      .pipe(shareReplay()); //prevent receiver from triggering multiple POST requests
   }
 
   sendVerificationEmail() {
@@ -165,5 +172,34 @@ export class AuthService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  /**
+   * Using Rxjs approaches
+   */
+  private setSession(authResult: any) {
+    const expiresAt = moment().add(authResult.expiresIn, 'second');
+
+    localStorage.setItem('user', authResult.idToken);
+    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+  }
+
+  private logOutRxJs() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('expires_at');
+  }
+
+  public isLoggedInRxJs() {
+    return moment().isBefore(this.getExpirationRxJs());
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedInRxJs();
+  }
+
+  getExpirationRxJs() {
+    const expiration = localStorage.getItem('expires_at');
+    const expiresAt = JSON.parse(expiration!);
+    return moment(expiresAt);
   }
 }

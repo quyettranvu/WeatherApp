@@ -3,13 +3,28 @@ import data from './data_management/retrieve_and_ingest_data';
 import cors from 'cors';
 import { client } from './elasticsearch/client';
 import { SortOrder } from '@elastic/elasticsearch/lib/api/types';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import { apiRoutes as identificationRoutes } from './JWT/apiRoutes';
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
+
+dotenv.config();
 
 app.use('/ingest_data', data);
-
 app.use(cors()); //enable cors for different origin
+app.use(bodyParser.json());
+//URL-encoded payloads
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
+
+//Authentication, authorization
+app.post('/api', identificationRoutes);
 
 app.get('/results', (req, res) => {
   const passedType = req.query.type;
