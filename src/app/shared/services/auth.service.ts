@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { User } from './user';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay, tap } from 'rxjs';
 import moment from 'moment';
 
 @Injectable({
@@ -61,9 +61,10 @@ export class AuthService {
   }
 
   signInRxJs(email: string, password: string): Observable<User> {
-    return this.httpClient
-      .post<User>('/api/login', { email, password })
-      .pipe(shareReplay()); //prevent receiver from triggering multiple POST requests
+    return this.httpClient.post<User>('/api/login', { email, password }).pipe(
+      shareReplay(), //prevent receiver from triggering multiple POST requests
+      tap((authResult) => this.setSession(authResult)),
+    );
   }
 
   //Sign in with Google
@@ -99,9 +100,10 @@ export class AuthService {
   }
 
   signUpRxJs(email: string, password: string): Observable<User> {
-    return this.httpClient
-      .post<User>('/api/signUp', { email, password })
-      .pipe(shareReplay()); //prevent receiver from triggering multiple POST requests
+    return this.httpClient.post<User>('/api/signUp', { email, password }).pipe(
+      shareReplay(), //prevent receiver from triggering multiple POST request
+      tap((authResult) => this.setSession(authResult)),
+    );
   }
 
   sendVerificationEmail() {
@@ -174,18 +176,26 @@ export class AuthService {
     }
   }
 
+  // signOutRxJs(email: string, password: string): Observable<User> {
+  //   return this.httpClient.post<User>('/api/signUp', { email, password }).pipe(
+  //     shareReplay(), //prevent receiver from triggering multiple POST request
+  //     tap((authResult) => this.setSession(authResult)),
+  //   );
+  // }
+
   /**
    * Using Rxjs approaches
    */
   private setSession(authResult: any) {
     const expiresAt = moment().add(authResult.expiresIn, 'second');
 
-    localStorage.setItem('user', authResult.idToken);
+    localStorage.setItem('access_token', authResult.idToken);
+    localStorage.setItem('refresh_token', authResult.idRefreshToken);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
   private logOutRxJs() {
-    localStorage.removeItem('user');
+    localStorage.removeItem('access_token');
     localStorage.removeItem('expires_at');
   }
 

@@ -40,16 +40,13 @@ export async function findUserIdForEmail(email: string) {
  * Create JWT Token with payload, key, userID given
  * @param payload
  * @param key
- * @param userId
  */
-export const createJwtToken = (
+export const generateJwtToken = (
   payload: string | object | Buffer,
   key: jwt.Secret,
-  userId: string,
 ) => {
   jwt.sign(payload, key, {
     algorithm: 'RS256',
     expiresIn: '2h',
-    subject: userId,
   });
 };

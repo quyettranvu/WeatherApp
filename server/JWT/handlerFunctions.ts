@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
 import { pool } from '../dbConnection';
-import { createJwtToken, findUserIdForEmail } from './helperFunctions';
+import { generateJwtToken, findUserIdForEmail } from './helperFunctions';
 import bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
-const RSA_PRIVATE_KEY: any = process.env.RSA_PRIVATE_KEY;
+export const ACCESS_PRIVATE_KEY: any = process.env.ACCESS_TOKEN_SECRET;
+export const REFRESH_PRIVATE_KEY: any = process.env.REFRESH_TOKEN_SECRET;
+const refreshTokens: string | any[] = [];
 
 export const signUpRoute = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -21,7 +24,10 @@ export const signUpRoute = async (req: Request, res: Response) => {
     );
 
     userId = queryResult.rows[0].id;
-    const jwtBearerToken = createJwtToken({}, RSA_PRIVATE_KEY, userId);
+
+    const accessToken = generateJwtToken({ userId }, ACCESS_PRIVATE_KEY);
+    const refreshToken = generateJwtToken({ userId }, REFRESH_PRIVATE_KEY);
+    refreshTokens.push(refreshToken);
 
     /* Ways to send JWT back to user */
     // Saving JWT in Cookie
@@ -29,7 +35,8 @@ export const signUpRoute = async (req: Request, res: Response) => {
 
     // Send JWT back to client
     res.status(200).json({
-      idToken: jwtBearerToken,
+      idToken: accessToken,
+      idRefreshToken: refreshToken,
       expiresIn: '2h',
       message: 'User registered successfully!',
     });
@@ -60,10 +67,13 @@ export const loginRoute = async (req: Request, res: Response) => {
       res.status(400).send('Invalid password');
     }
 
-    const jwtBearerToken = createJwtToken({}, RSA_PRIVATE_KEY, userId);
+    const accessToken = generateJwtToken({}, ACCESS_PRIVATE_KEY);
+    const refreshToken = generateJwtToken({ userId }, REFRESH_PRIVATE_KEY);
+    refreshTokens.push(refreshToken);
 
     res.status(200).json({
-      idToken: jwtBearerToken,
+      idToken: accessToken,
+      idRefreshToken: refreshToken,
       expiresIn: '2h',
       message: 'User logged in successfully!',
     });
@@ -71,4 +81,58 @@ export const loginRoute = async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).send('Internal server error');
   }
+};
+
+export const logoutRoute = async (req: Request, res: Response) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.status(400).send('No refreshToken provided');
+  }
+
+  const index = refreshTokens.indexOf(refreshToken);
+  if (index !== -1) {
+    refreshTokens.splice(index, 1);
+  }
+
+  res.status(204).send('Log out successfully!');
+};
+
+export const authMiddleware = (req: Request, res: Response, next: any) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).send('No Authorization header provided');
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  jwt.verify(token, ACCESS_PRIVATE_KEY, (error: any, user_decoded: any) => {
+    if (error) {
+      return res.status(401).send('Invalid token');
+    }
+    console.log('Verified with creditials: ', user_decoded);
+    // req = decoded;
+    next();
+  });
+};
+
+export const generateTokens = (req: Request, res: Response) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken || !refreshTokens.includes(refreshToken)) {
+    return res.status(403).send('Invalid refresh token');
+  }
+
+  jwt.verify(
+    refreshToken,
+    REFRESH_PRIVATE_KEY,
+    (error: any, user_decoded: any) => {
+      if (error) {
+        return res.status(403).send('Invalid refresh token');
+      }
+
+      const accessToken = generateJwtToken(user_decoded, ACCESS_PRIVATE_KEY);
+      res.status(200).json({ accessToken });
+    },
+  );
 };
