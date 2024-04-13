@@ -38,4 +38,9 @@ Create new project on Firebase and add the relevant services of Firebase, apply 
 
 import modules then start writing API handlers.
 
+## Rewind back to JWT Authentication and Authorization (better options used to save tokens in Local Storage than save in Cookies, can change to save in Cookies by using "res.cookie") with Observable pattern RxJs
+
+Create new project on Firebase and add the relevant services of Firebase, apply configurations in environment on Angular(here hences my general configurations for Angular project), 
+
+import modules then start writing API handlers.
 
