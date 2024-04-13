@@ -1,5 +1,5 @@
 import { pool } from '../dbConnection';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 /**
  * Validate email and password formats
@@ -22,7 +22,7 @@ export function validateEmailAndPassword(email: string, password: string) {
 export async function findUserIdForEmail(email: string) {
   try {
     const queryResult = await pool.query(
-      'SELECT id FROM users WHERE email = $1 VALUES($1)',
+      'SELECT id FROM users WHERE email = $1',
       [email],
     );
 
@@ -45,7 +45,22 @@ export const generateJwtToken = (
   payload: string | object | Buffer,
   key: jwt.Secret,
 ) => {
-  jwt.sign(payload, key, {
+  return jwt.sign(payload, key, {
+    algorithm: 'HS256',
+    expiresIn: '2h',
+  });
+};
+
+/**
+ *
+ * @param payload
+ * @param key
+ */
+export const generateJwtRSAToken = (
+  payload: string | object | Buffer,
+  key: jwt.Secret,
+) => {
+  return jwt.sign(payload, key, {
     algorithm: 'RS256',
     expiresIn: '2h',
   });

@@ -5,15 +5,13 @@ import { client } from './elasticsearch/client';
 import { SortOrder } from '@elastic/elasticsearch/lib/api/types';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import { apiRoutes as identificationRoutes } from './JWT/apiRoutes';
+import { authRoutes as identificationRoutes } from './JWT/apiRoutes';
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 
 dotenv.config();
 
-app.use('/ingest_data', data);
 app.use(cors()); //enable cors for different origin
 app.use(bodyParser.json());
 //URL-encoded payloads
@@ -23,8 +21,9 @@ app.use(
   }),
 );
 
-//Authentication, authorization
-app.post('/api', identificationRoutes);
+//Custom routes definitions
+app.use('/ingest_data', data);
+app.use('/api', identificationRoutes);
 
 app.get('/results', (req, res) => {
   const passedType = req.query.type;

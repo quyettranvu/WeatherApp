@@ -1,4 +1,8 @@
-import { Pool } from 'pg';
+import pg from 'pg';
+import dotenv from 'dotenv';
+
+const { Pool } = pg;
+dotenv.config();
 
 const port = process.env.PG_PORT ? parseInt(process.env.PG_PORT, 10) : 5432;
 
@@ -8,7 +12,6 @@ export const pool = new Pool({
   user: process.env.PG_USER,
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
-  ssl: true,
 });
 
 (async () => {

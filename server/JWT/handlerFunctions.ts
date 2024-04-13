@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { pool } from '../dbConnection';
 import { generateJwtToken, findUserIdForEmail } from './helperFunctions';
 import bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
+/* Using HS256 */
 export const ACCESS_PRIVATE_KEY: any = process.env.ACCESS_TOKEN_SECRET;
 export const REFRESH_PRIVATE_KEY: any = process.env.REFRESH_TOKEN_SECRET;
 const refreshTokens: string | any[] = [];
@@ -14,12 +15,13 @@ export const signUpRoute = async (req: Request, res: Response) => {
     let userId = await findUserIdForEmail(email);
     if (userId) {
       res.status(400).send('Email already existed');
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const queryResult = await pool.query(
-      'INSERT INTO users(email) VALUES($1, $2) RETURNING id',
+      'INSERT INTO users(email, password) VALUES($1, $2) RETURNING id',
       [email, hashedPassword],
     );
 
@@ -27,6 +29,7 @@ export const signUpRoute = async (req: Request, res: Response) => {
 
     const accessToken = generateJwtToken({ userId }, ACCESS_PRIVATE_KEY);
     const refreshToken = generateJwtToken({ userId }, REFRESH_PRIVATE_KEY);
+    console.log(accessToken, refreshToken);
     refreshTokens.push(refreshToken);
 
     /* Ways to send JWT back to user */
@@ -34,7 +37,7 @@ export const signUpRoute = async (req: Request, res: Response) => {
     //res.status(200).cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
 
     // Send JWT back to client
-    res.status(200).json({
+    return res.status(200).json({
       idToken: accessToken,
       idRefreshToken: refreshToken,
       expiresIn: '2h',
@@ -43,6 +46,7 @@ export const signUpRoute = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal server error');
+    return;
   }
 };
 
@@ -52,6 +56,7 @@ export const loginRoute = async (req: Request, res: Response) => {
     const userId = await findUserIdForEmail(email);
     if (!userId) {
       res.status(400).send('Email does not exist');
+      return;
     }
 
     const queryResult = await pool.query('SELECT * FROM users WHERE id = $1', [
@@ -67,11 +72,11 @@ export const loginRoute = async (req: Request, res: Response) => {
       res.status(400).send('Invalid password');
     }
 
-    const accessToken = generateJwtToken({}, ACCESS_PRIVATE_KEY);
+    const accessToken = generateJwtToken({ userId }, ACCESS_PRIVATE_KEY);
     const refreshToken = generateJwtToken({ userId }, REFRESH_PRIVATE_KEY);
     refreshTokens.push(refreshToken);
 
-    res.status(200).json({
+    return res.status(200).json({
       idToken: accessToken,
       idRefreshToken: refreshToken,
       expiresIn: '2h',
@@ -80,13 +85,15 @@ export const loginRoute = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal server error');
+    return;
   }
 };
 
 export const logoutRoute = async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
   if (!refreshToken) {
-    return res.status(400).send('No refreshToken provided');
+    res.status(400).send('No refreshToken provided');
+    return;
   }
 
   const index = refreshTokens.indexOf(refreshToken);
@@ -95,13 +102,15 @@ export const logoutRoute = async (req: Request, res: Response) => {
   }
 
   res.status(204).send('Log out successfully!');
+  return;
 };
 
 export const authMiddleware = (req: Request, res: Response, next: any) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).send('No Authorization header provided');
+    res.status(401).send('No Authorization header provided');
+    return;
   }
 
   const token = authHeader.split(' ')[1];
@@ -120,7 +129,8 @@ export const generateTokens = (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken || !refreshTokens.includes(refreshToken)) {
-    return res.status(403).send('Invalid refresh token');
+    res.status(403).send('Invalid refresh token');
+    return;
   }
 
   jwt.verify(
@@ -132,7 +142,7 @@ export const generateTokens = (req: Request, res: Response) => {
       }
 
       const accessToken = generateJwtToken(user_decoded, ACCESS_PRIVATE_KEY);
-      res.status(200).json({ accessToken });
+      return res.status(200).json({ accessToken });
     },
   );
 };

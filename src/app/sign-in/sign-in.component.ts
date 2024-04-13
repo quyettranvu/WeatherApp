@@ -51,7 +51,8 @@ export class SignInComponent implements OnInit {
       password: formData.password,
     };
 
-    this.authService.signIn(data.email, data.password);
+    // this.authService.signIn(data.email, data.password);
+    this.authService.signInRxJs(data.email, data.password);
   }
 
   loginwithGoogle() {
