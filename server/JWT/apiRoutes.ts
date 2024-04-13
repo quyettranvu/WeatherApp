@@ -1,7 +1,7 @@
 import express from 'express';
 import { loginRoute, signUpRoute } from './handlerFunctions';
 
-export const apiRoutes = express.Router();
+export const authRoutes = express.Router();
 
-apiRoutes.post('/signup', signUpRoute);
-apiRoutes.post('/login', loginRoute);
+authRoutes.post('/signup', signUpRoute);
+authRoutes.post('/login', loginRoute);

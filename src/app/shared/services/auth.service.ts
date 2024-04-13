@@ -11,6 +11,7 @@ import { User } from './user';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay, tap } from 'rxjs';
 import moment from 'moment';
+import { environment } from '../../../environments/enviroment';
 
 @Injectable({
   providedIn: 'root',
@@ -100,10 +101,12 @@ export class AuthService {
   }
 
   signUpRxJs(email: string, password: string): Observable<User> {
-    return this.httpClient.post<User>('/api/signUp', { email, password }).pipe(
-      shareReplay(), //prevent receiver from triggering multiple POST request
-      tap((authResult) => this.setSession(authResult)),
-    );
+    return this.httpClient
+      .post<User>(environment.apiUrl + '/api/signup', { email, password })
+      .pipe(
+        shareReplay(), //prevent receiver from triggering multiple POST request
+        tap((authResult) => this.setSession(authResult)),
+      );
   }
 
   sendVerificationEmail() {

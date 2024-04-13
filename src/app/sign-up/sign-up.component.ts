@@ -64,6 +64,15 @@ export class SignUpComponent implements OnInit {
       password: formData.password,
     };
 
-    this.authService.signUp(data.email, data.password);
+    // this.authService.signUp(data.email, data.password);
+    this.authService.signUpRxJs(data.email, data.password).subscribe({
+      next: (res) => {
+        // continue procesing with returned datas
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }
