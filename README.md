@@ -31,3 +31,16 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Required packages for Typescript support on Nodejs: @types/node, typescript (global install recommend)
 
 Create ElasticSearch Cloud Host together with processors for managing and with Kibana Console for analytics, visualizations and more.
+
+## Apply Firebase services on Angular for authentication and authorization with some references about UI on PrimeNg(thanks to the creators of such great UI component-my favorite besides MUI as reference and use when needed). Inspired of using LocalStorage(compared to SessionStorage over the stability) and using RxJS with the help of Observable pattern.
+
+Create new project on Firebase and add the relevant services of Firebase, apply configurations in environment on Angular(here hences my general configurations for Angular project), 
+
+import modules then start writing API handlers.
+
+## Rewind back to JWT Authentication and Authorization (better options used to save tokens in Local Storage than save in Cookies, can change to save in Cookies by using "res.cookie") with Observable pattern RxJs
+
+Create new project on Firebase and add the relevant services of Firebase, apply configurations in environment on Angular(here hences my general configurations for Angular project), 
+
+import modules then start writing API handlers.
+
