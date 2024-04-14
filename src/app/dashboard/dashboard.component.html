@@ -5,7 +5,7 @@
       <button
         class="dashboardSection-button"
         type="button"
-        (click)="authService.signOut()"
+        (click)="authService.signOutRxJs()"
       >
         <mat-icon>logout</mat-icon> Logout
       </button>
@@ -27,13 +27,14 @@
           <strong>{{ user.displayName ? user.displayName : "User" }}</strong>
         </h1>
         <p>
-          User ID: <strong>{{ user.uid }}</strong>
+          User ID: <strong>{{ user.uid || user.id }}</strong>
         </p>
         <p>
           Email: <strong>{{ user.email }}</strong>
         </p>
         <p>
-          Email Verified: <strong>{{ user.emailVerified }}</strong>
+          Email Verified:
+          <strong>{{ user.emailVerified || user.emailverified }}</strong>
         </p>
       </div>
     </div>
