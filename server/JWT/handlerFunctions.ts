@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { pool } from '../dbConnection';
 import { generateJwtToken, findUserIdForEmail } from './helperFunctions';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 /* Using HS256 */
 export const ACCESS_PRIVATE_KEY: any = process.env.ACCESS_TOKEN_SECRET;
@@ -40,7 +40,7 @@ export const signUpRoute = async (req: Request, res: Response) => {
     return res.status(200).json({
       idToken: accessToken,
       idRefreshToken: refreshToken,
-      expiresIn: '2h',
+      expiresIn: '2',
       message: 'User registered successfully!',
     });
   } catch (error) {
@@ -63,6 +63,10 @@ export const loginRoute = async (req: Request, res: Response) => {
       userId,
     ]);
 
+    const user = queryResult.rows[0];
+    const userWithoutPassword = { ...user };
+    delete userWithoutPassword.password;
+
     const passwordMatched = await bcrypt.compare(
       password,
       queryResult.rows[0].password,
@@ -77,9 +81,10 @@ export const loginRoute = async (req: Request, res: Response) => {
     refreshTokens.push(refreshToken);
 
     return res.status(200).json({
+      user: userWithoutPassword,
       idToken: accessToken,
       idRefreshToken: refreshToken,
-      expiresIn: '2h',
+      expiresIn: '2',
       message: 'User logged in successfully!',
     });
   } catch (error) {

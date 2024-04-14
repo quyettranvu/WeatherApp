@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../shared/services/auth.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -38,6 +38,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +70,7 @@ export class SignUpComponent implements OnInit {
       next: (res) => {
         // continue procesing with returned datas
         console.log(res);
+        this.router.navigate(['sign-in']);
       },
       error: (err) => {
         console.log(err);

@@ -1,4 +1,4 @@
-import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { User } from './user';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, shareReplay, tap } from 'rxjs';
+import { Observable, catchError, map, of, shareReplay, tap } from 'rxjs';
 import moment from 'moment';
 import { environment } from '../../../environments/enviroment';
 
@@ -28,18 +28,30 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: object,
   ) {
     // const localStorage = document.defaultView?.localStorage;
+    // if (isPlatformBrowser(this.platformId)) {
+    //   /* Saving user data in localstorage when logged in and setting up null when logged out */
+    //   this.angularFireAuth.authState.subscribe((user) => {
+    //     if (user) {
+    //       this.userData = user;
+    //       localStorage.setItem('user', JSON.stringify(this.userData));
+    //       JSON.parse(localStorage.getItem('user')!);
+    //     } else {
+    //       localStorage.setItem('user', 'null');
+    //       JSON.parse(localStorage.getItem('user')!);
+    //     }
+    //   });
+    // }
+
     if (isPlatformBrowser(this.platformId)) {
-      /* Saving user data in localstorage when logged in and setting up null when logged out */
-      this.angularFireAuth.authState.subscribe((user) => {
-        if (user) {
-          this.userData = user;
-          localStorage.setItem('user', JSON.stringify(this.userData));
-          JSON.parse(localStorage.getItem('user')!);
-        } else {
-          localStorage.setItem('user', 'null');
-          JSON.parse(localStorage.getItem('user')!);
-        }
-      });
+      /* Using RxJS with JWT Tokens for checking sessions */
+      const accessToken = localStorage.getItem('access_token');
+      const expiresAt = JSON.parse(localStorage.getItem('expires_at')!);
+      if (accessToken && moment().isBefore(expiresAt)) {
+        const user = localStorage.getItem('user');
+        this.userData = JSON.parse(user!);
+      } else {
+        this.router.navigate(['/sign-in']);
+      }
     }
   }
 
@@ -62,10 +74,12 @@ export class AuthService {
   }
 
   signInRxJs(email: string, password: string): Observable<User> {
-    return this.httpClient.post<User>('/api/login', { email, password }).pipe(
-      shareReplay(), //prevent receiver from triggering multiple POST requests
-      tap((authResult) => this.setSession(authResult)),
-    );
+    return this.httpClient
+      .post<User>(environment.apiUrl + '/api/login', { email, password })
+      .pipe(
+        shareReplay(), //prevent receiver from triggering multiple POST requests
+        tap((authResult) => this.setSession(authResult)),
+      );
   }
 
   //Sign in with Google
@@ -105,7 +119,9 @@ export class AuthService {
       .post<User>(environment.apiUrl + '/api/signup', { email, password })
       .pipe(
         shareReplay(), //prevent receiver from triggering multiple POST request
-        tap((authResult) => this.setSession(authResult)),
+        tap((authResult) => {
+          this.setSession(authResult);
+        }),
       );
   }
 
@@ -190,16 +206,21 @@ export class AuthService {
    * Using Rxjs approaches
    */
   private setSession(authResult: any) {
-    const expiresAt = moment().add(authResult.expiresIn, 'second');
+    const expiresAt = moment().add(authResult.expiresIn, 'hours');
 
+    if (authResult.user) {
+      this.userData = authResult.user;
+      localStorage.setItem('user', JSON.stringify(authResult.user));
+    }
     localStorage.setItem('access_token', authResult.idToken);
     localStorage.setItem('refresh_token', authResult.idRefreshToken);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
-  private logOutRxJs() {
+  public signOutRxJs() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_at');
+    this.router.navigate(['/sign-in']);
   }
 
   public isLoggedInRxJs() {

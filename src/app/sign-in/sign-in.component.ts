@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-sign-in',
   standalone: true,
@@ -35,6 +35,7 @@ export class SignInComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private formBuilder: FormBuilder,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +53,15 @@ export class SignInComponent implements OnInit {
     };
 
     // this.authService.signIn(data.email, data.password);
-    this.authService.signInRxJs(data.email, data.password);
+    this.authService.signInRxJs(data.email, data.password).subscribe({
+      next: (res) => {
+        // continue procesing with returned datas
+        this.router.navigate(['dashboard']);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   loginwithGoogle() {
