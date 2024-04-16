@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { pool } from '../dbConnection';
 import { generateJwtToken, findUserIdForEmail } from './helperFunctions';
 import bcrypt from 'bcrypt';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 /* Using HS256 */
 export const ACCESS_PRIVATE_KEY: any = process.env.ACCESS_TOKEN_SECRET;
@@ -130,7 +130,10 @@ export const authMiddleware = (req: Request, res: Response, next: any) => {
   });
 };
 
-export const generateTokens = (req: Request, res: Response) => {
+export const generateAccessTokenWithRefreshToken = (
+  req: Request,
+  res: Response,
+) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken || !refreshTokens.includes(refreshToken)) {
