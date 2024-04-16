@@ -207,19 +207,22 @@ export class AuthService {
    */
   private setSession(authResult: any) {
     const expiresAt = moment().add(authResult.expiresIn, 'hours');
-
-    if (authResult.user) {
-      this.userData = authResult.user;
-      localStorage.setItem('user', JSON.stringify(authResult.user));
+    if (isPlatformBrowser(this.platformId)) {
+      if (authResult.user) {
+        this.userData = authResult.user;
+        localStorage.setItem('user', JSON.stringify(authResult.user));
+      }
+      localStorage.setItem('access_token', authResult.idToken);
+      localStorage.setItem('refresh_token', authResult.idRefreshToken);
+      localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
     }
-    localStorage.setItem('access_token', authResult.idToken);
-    localStorage.setItem('refresh_token', authResult.idRefreshToken);
-    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
   public signOutRxJs() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('expires_at');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('access_token'); // only remove accesstoken, user can call method to generate access token with refresh token or apply remove refreshtoken on logout to prevent this
+      localStorage.removeItem('expires_at');
+    }
     this.router.navigate(['/sign-in']);
   }
 
@@ -232,8 +235,11 @@ export class AuthService {
   }
 
   getExpirationRxJs() {
-    const expiration = localStorage.getItem('expires_at');
-    const expiresAt = JSON.parse(expiration!);
-    return moment(expiresAt);
+    if (isPlatformBrowser(this.platformId)) {
+      const expiration = localStorage.getItem('expires_at');
+      const expiresAt = JSON.parse(expiration!);
+      return moment(expiresAt);
+    }
+    return;
   }
 }

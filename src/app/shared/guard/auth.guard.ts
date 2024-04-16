@@ -24,16 +24,19 @@ export class AuthGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.isLoggedIn().pipe(
-      take(1), //observable completes after emitting first value -> prevent leak memory
-      //transform value(boolean) from isLoggedIn() to either true for logging in or UrlTree for navigating
-      map((isLoggedIn: boolean) => {
-        if (!isLoggedIn) {
-          return this.router.createUrlTree(['sign-in']);
-        } else {
-          return true;
-        }
-      }),
-    );
+    // return this.authService.isLoggedIn().pipe(
+    //   take(1), //observable completes after emitting first value -> prevent leak memory
+    //   //transform value(boolean) from isLoggedIn() to either true for logging in or UrlTree for navigating
+    //   map((isLoggedIn: boolean) => {
+    //     if (!isLoggedIn) {
+    //       return this.router.createUrlTree(['sign-in']);
+    //     } else {
+    //       return true;
+    //     }
+    //   }),
+    // );
+
+    /* Checking session if using RxJS M */
+    return this.authService.isLoggedInRxJs();
   }
 }
