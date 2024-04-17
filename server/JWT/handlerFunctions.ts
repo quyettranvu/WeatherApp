@@ -3,8 +3,10 @@ import { pool } from '../dbConnection';
 import { generateJwtToken, findUserIdForEmail } from './helperFunctions';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import cron from 'node-cron';
+import moment from 'moment';
 
-/* Using HS256 */
+/* Authorization, Authentication, JWT tokens, refreshtoken for regenerating accesstoken, pass interceptor, opinions about ideas of using 2 types of tokens */
 export const ACCESS_PRIVATE_KEY: any = process.env.ACCESS_TOKEN_SECRET;
 export const REFRESH_PRIVATE_KEY: any = process.env.REFRESH_TOKEN_SECRET;
 const refreshTokens: string | any[] = [];
@@ -29,7 +31,6 @@ export const signUpRoute = async (req: Request, res: Response) => {
 
     const accessToken = generateJwtToken({ userId }, ACCESS_PRIVATE_KEY);
     const refreshToken = generateJwtToken({ userId }, REFRESH_PRIVATE_KEY);
-    console.log(accessToken, refreshToken);
     refreshTokens.push(refreshToken);
 
     /* Ways to send JWT back to user */
@@ -79,6 +80,9 @@ export const loginRoute = async (req: Request, res: Response) => {
     const accessToken = generateJwtToken({ userId }, ACCESS_PRIVATE_KEY);
     const refreshToken = generateJwtToken({ userId }, REFRESH_PRIVATE_KEY);
     refreshTokens.push(refreshToken);
+
+    //Check user's plan feature
+    checkStillValidPlan(email);
 
     return res.status(200).json({
       user: userWithoutPassword,
@@ -154,3 +158,80 @@ export const generateAccessTokenWithRefreshToken = (
     },
   );
 };
+
+/* Subscription feature */
+export const createPlanRoute = async (req: Request, res: Response) => {
+  try {
+    const { price, name, userId } = req.body;
+
+    if (!price || !name || !userId) {
+      return res.status(400).json('All fields are required!');
+    }
+
+    const queryResult = await pool.query('SELECT * FROM users WHERE id = $1', [
+      userId,
+    ]);
+
+    const user = queryResult.rows[0];
+    if (user.isProMember) {
+      return res
+        .status(400)
+        .json('You are already pro member! Not allowed to register again!');
+    }
+
+    // const _expected_body = _.pick(req.body, ['price', 'name']);
+    const queryPlanResult = await pool.query(
+      'INSERT INTO plan(price, name, userId) VALUES($1, $2, $3) RETURNING id',
+      [price, name, userId],
+    );
+
+    if (queryPlanResult) {
+      return res.status(200).json('Successfully registered as pro member ^^!');
+    }
+    res.json(400).send('Oops! Something went wrong!');
+    return;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+    return;
+  }
+};
+
+export const getListPlansRoute = async (req: Request, res: Response) => {
+  try {
+    const queryResult = await pool.query('SELECT * FROM plan');
+    if (queryResult.rows.length == 0) {
+      return res
+        .status(200)
+        .json('Sorry! There are no current available plans :(');
+    }
+    return res.status(200).json(queryResult.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+    return;
+  }
+};
+
+export function checkStillValidPlan(email: string) {
+  cron.schedule('* * * * *', async function () {
+    const today_date = moment(new Date()).format('YYYY-MM-DD hh:mm');
+    const userId = await findUserIdForEmail(email);
+    if (!userId) {
+      console.error('Email does not exist');
+    }
+
+    const queryResult = await pool.query('SELECT * FROM users WHERE id = $1', [
+      userId,
+    ]);
+
+    const user = queryResult.rows[0];
+    const userDueDate = moment(user.valid_date).format('YYYY-MM-DD hh:mm');
+
+    if (today_date === userDueDate) {
+      await pool.query('UPDATE users SET isProMember = false WHERE id = $1', [
+        user.id,
+      ]);
+    }
+  });
+}

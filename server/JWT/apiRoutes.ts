@@ -1,7 +1,14 @@
 import express from 'express';
-import { loginRoute, signUpRoute } from './handlerFunctions';
+import {
+  createPlanRoute,
+  getListPlansRoute,
+  loginRoute,
+  signUpRoute,
+} from './handlerFunctions';
 
-export const authRoutes = express.Router();
+export const customRoutes = express.Router();
 
-authRoutes.post('/signup', signUpRoute);
-authRoutes.post('/login', loginRoute);
+customRoutes.post('/signup', signUpRoute);
+customRoutes.post('/login', loginRoute);
+customRoutes.post('/create-plan', createPlanRoute);
+customRoutes.get('/list-plan', getListPlansRoute);

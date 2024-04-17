@@ -5,7 +5,7 @@ import { client } from './elasticsearch/client';
 import { SortOrder } from '@elastic/elasticsearch/lib/api/types';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import { authRoutes as identificationRoutes } from './JWT/apiRoutes';
+import { customRoutes as identificationRoutes } from './JWT/apiRoutes';
 
 const app = express();
 const port = process.env.PORT || 3001;
