@@ -8,7 +8,9 @@ specifiers:
   '@types/cookie-parser': ^1.4.7
   '@types/cors': ^2.8.17
   '@types/jsonwebtoken': ^9.0.6
+  '@types/moment': ^2.13.0
   '@types/node': ^20.11.26
+  '@types/node-cron': ^3.0.11
   '@types/pg': ^8.11.5
   axios: ^1.6.7
   bcrypt: ^5.1.1
@@ -20,6 +22,8 @@ specifiers:
   express: ^4.18.3
   jsonwebtoken: ^9.0.2
   log-timestamp: ^0.3.0
+  moment: ^2.30.1
+  node-cron: ^3.0.3
   nodemon: ^3.1.0
   pg: ^8.11.5
   rimraf: ^5.0.5
@@ -27,7 +31,6 @@ specifiers:
 
 dependencies:
   '@elastic/elasticsearch': 8.12.2
-  '@types/bcrypt': 5.0.2
   axios: 1.6.7
   bcrypt: 5.1.1
   body-parser: 1.20.2
@@ -38,16 +41,21 @@ dependencies:
   express: 4.18.3
   jsonwebtoken: 9.0.2
   log-timestamp: 0.3.0
+  moment: 2.30.1
+  node-cron: 3.0.3
   nodemon: 3.1.0
   pg: 8.11.5
 
 devDependencies:
+  '@types/bcrypt': 5.0.2
   '@types/body-parser': 1.19.5
   '@types/config': 3.3.3
   '@types/cookie-parser': 1.4.7
   '@types/cors': 2.8.17
   '@types/jsonwebtoken': 9.0.6
+  '@types/moment': 2.13.0
   '@types/node': 20.11.26
+  '@types/node-cron': 3.0.11
   '@types/pg': 8.11.5
   rimraf: 5.0.5
   typescript: 5.4.2
@@ -124,7 +132,7 @@ packages:
     resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
     dependencies:
       '@types/node': 20.11.26
-    dev: false
+    dev: true
 
   /@types/body-parser/1.19.5:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
@@ -187,10 +195,22 @@ packages:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
     dev: true
 
+  /@types/moment/2.13.0:
+    resolution: {integrity: sha512-DyuyYGpV6r+4Z1bUznLi/Y7HpGn4iQ4IVcGn8zrr1P4KotKLdH0sbK1TFR6RGyX6B+G8u83wCzL+bpawKU/hdQ==}
+    deprecated: This is a stub types definition for Moment (https://github.com/moment/moment). Moment provides its own type definitions, so you don't need @types/moment installed!
+    dependencies:
+      moment: 2.30.1
+    dev: true
+
+  /@types/node-cron/3.0.11:
+    resolution: {integrity: sha512-0ikrnug3/IyneSHqCBeslAhlK2aBfYek1fGo4bP4QnZPmiqSGRK+Oy7ZMisLWkesffJvQ1cqAcBnJC+8+nxIAg==}
+    dev: true
+
   /@types/node/20.11.26:
     resolution: {integrity: sha512-YwOMmyhNnAWijOBQweOJnQPl068Oqd4K3OFbTc6AHJwzweUwwWG3GIFY74OKks2PJUDkQPeddOQES9mLn1CTEQ==}
     dependencies:
       undici-types: 5.26.5
+    dev: true
 
   /@types/pg/8.11.5:
     resolution: {integrity: sha512-2xMjVviMxneZHDHX5p5S6tsRRs7TpDHeeK7kTTMe/kAC/mRRNjWHjZg0rkiY+e17jXSZV3zJYDxXV8Cy72/Vuw==}
@@ -1092,6 +1112,9 @@ packages:
     hasBin: true
     dev: false
 
+  /moment/2.30.1:
+    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
+
   /ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: false
@@ -1111,6 +1134,13 @@ packages:
 
   /node-addon-api/5.1.0:
     resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
+    dev: false
+
+  /node-cron/3.0.3:
+    resolution: {integrity: sha512-dOal67//nohNgYWb+nWmg5dkFdIwDm8EpeGYMekPMrngV3637lqnX0lbUcCtgibHTz6SEz7DAIjKvKDFYCnO1A==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      uuid: 8.3.2
     dev: false
 
   /node-fetch/2.7.0:
@@ -1652,6 +1682,7 @@ packages:
 
   /undici-types/5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+    dev: true
 
   /undici/5.28.3:
     resolution: {integrity: sha512-3ItfzbrhDlINjaP0duwnNsKpDQk3acHI3gVJ1z4fmwMK31k5G9OVIAMLSIaP6w4FaGkaAkN6zaQO9LUvZ1t7VA==}
@@ -1672,6 +1703,11 @@ packages:
   /utils-merge/1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
+    dev: false
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
     dev: false
 
   /vary/1.1.2:

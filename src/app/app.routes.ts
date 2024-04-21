@@ -9,6 +9,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RedirectToDashboardGuard } from './shared/guard/redirect.guard';
+import { SubscriptionPlanComponent } from './subscription-plan/subscription-plan.component';
 
 //All routes defined from here
 export const routes: Routes = [
@@ -43,6 +44,10 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'subscription-plan',
+    component: SubscriptionPlanComponent,
   },
   { path: '**', component: HomeComponent },
 ];

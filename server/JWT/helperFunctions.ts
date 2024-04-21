@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { pool } from '../dbConnection';
 import jwt from 'jsonwebtoken';
 
@@ -65,3 +66,20 @@ export const generateJwtRSAToken = (
     expiresIn: '2h',
   });
 };
+
+export function calculateNextActivation(chargeType: string, normalDate: Date) {
+  let currentDate;
+  if (!chargeType) {
+    return null;
+  }
+
+  if (chargeType === 'Weekly') {
+    currentDate = moment(normalDate);
+    currentDate.add(7, 'days').format('YYYY-MM-DD hh:mm');
+    return currentDate;
+  } else if (chargeType === 'Monthly') {
+    currentDate = moment(normalDate);
+    currentDate.add(1, 'month').format('YYYY-MM-DD hh:mm');
+    return currentDate;
+  }
+}
