@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     { label: 'Weather', link: '/weather' },
     { label: 'SignUp', link: '/register-user' },
     { label: 'Login', link: '/sign-in' },
+    { label: 'Subscription Plan', link: '/subscription-plan' },
   ];
 
   constructor(public authService: AuthService) {}
@@ -33,6 +34,10 @@ export class HomeComponent implements OnInit {
         (item) => item.label !== 'SignUp' && item.label !== 'Login',
       );
       this.menuItems.push({ label: 'Dashboard', link: '/dashboard' });
+      // this.menuItems.push({
+      //   label: 'Subscription Plan',
+      //   link: '/subscription-plan',
+      // });
     } else {
       const isLogInExists = this.menuItems.some(
         (item) => item.label === 'Login',
